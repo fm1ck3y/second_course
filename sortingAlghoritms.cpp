@@ -51,17 +51,14 @@ int* InsertionSort(int* arr, int length)
    for (int i = 1 ; i < length; i++)
    {
       int temp_i = i;
-      for (int j = i-1; j >= 0; j--)
-      {
+      CountComparison++;
+      while (temp_i > 0 && array[temp_i] < array[temp_i-1]){
          CountComparison++;
-	      if (array[temp_i] < array[j])
-	      {
-            CountPermutation++;
-	         int tmp = array[temp_i];
-	         array[temp_i] = array[j];
-	         array[j] = tmp;
-	         temp_i--;
-	      }
+         CountPermutation++;
+	      int tmp = array[temp_i];
+	      array[temp_i] = array[temp_i-1];
+	      array[temp_i-1] = tmp;
+	      temp_i--;
       }
    }
 
@@ -90,6 +87,34 @@ int* BubbleSort(int* arr, int length)
    }
    
    cout << "Sorting array by BubbleSort." << endl;
+   return array;
+}
+
+int* ShellSort(int* arr, int length){
+   int* array = new int[length];
+   memcpy(array,arr,length * sizeof(int));
+   int* h = new int [3] {5,2,1};
+   for (int i = 0 ; i < 3; i++)
+   {
+      for(int m = 0; m < h[i]; m++)
+      {
+         for (int j = m; j < length; j+=h[i])
+         {
+            int min = array[j]; int index = j;
+            for (int k = j+h[i]; k < length; k+=h[i]){
+               CountComparison++;
+               if (array[k] < min){
+                  min = array[k];
+                  index = k;
+               }
+            }
+            CountPermutation++;
+            array[index] = array[j];
+            array[j] = min;
+         }
+      }
+   }
+   cout << "Sorting array by ShellSort." << endl;
    return array;
 }
 
@@ -123,7 +148,8 @@ int main()
    cout << endl;
    FunctionStudy(SelectionSort,array,length);
    FunctionStudy(InsertionSort,array,length);
-   FunctionStudy(BubbleSort,array,length);
+   FunctionStudy(BubbleSort,array,length);\
+   FunctionStudy(ShellSort,array,length);
    // -------------------------------------------------------------------
 
    //------------------------ increasing array --------------------------
@@ -136,6 +162,7 @@ int main()
    FunctionStudy(SelectionSort,array,length);
    FunctionStudy(InsertionSort,array,length);
    FunctionStudy(BubbleSort,array,length);
+   FunctionStudy(ShellSort,array,length);
    // -------------------------------------------------------------------
 
    //------------------------ decreasing array --------------------------
@@ -148,6 +175,7 @@ int main()
    FunctionStudy(SelectionSort,array,length);
    FunctionStudy(InsertionSort,array,length);
    FunctionStudy(BubbleSort,array,length);
+   FunctionStudy(ShellSort,array,length);
    // -------------------------------------------------------------------
    delete[] array;
    return 1;
