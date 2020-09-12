@@ -1,20 +1,22 @@
 #include <iostream>
 #include <cstring>
 #include <chrono> 
+#include <fstream>
 
 using namespace std;
 using namespace std::chrono; 
 
 static int CountComparison = 0; // количество операций сравнения
 static int CountPermutation = 0; // количество операций перестановки элементов массива
+ofstream output("output.txt"); // файл для вывода итога исследования функций
 
 // простой вывод массива
 void PrintArray(int* array, int length)
 {
    for (int i = 0 ; i < length; i++){
-      cout << array[i] << "\t";
+      output << array[i] << "\t";
    }
-   cout << endl;
+   output << endl;
 }
 
 // сортировка выборкой
@@ -35,11 +37,9 @@ int* SelectionSort(int* arr, int length)
 	      }
       }
       CountPermutation++;
-      int tmp = array[index];
-      array[index] = array[i];
-      array[i] = tmp;
+      swap(array[i],array[index]);
    }
-   cout << "Sorting array by SelectionSort." << endl;
+   output << "Sorting array by SelectionSort." << endl;
    return array;
 }
 
@@ -55,14 +55,12 @@ int* InsertionSort(int* arr, int length)
       while (temp_i > 0 && array[temp_i] < array[temp_i-1]){
          CountComparison++;
          CountPermutation++;
-	      int tmp = array[temp_i];
-	      array[temp_i] = array[temp_i-1];
-	      array[temp_i-1] = tmp;
+         swap(array[temp_i-1],array[temp_i]);
 	      temp_i--;
       }
    }
 
-   cout << "Sorting array by InstertionSort." << endl;
+   output << "Sorting array by InstertionSort." << endl;
    return array;
 }
 
@@ -79,14 +77,12 @@ int* BubbleSort(int* arr, int length)
 	      if (array[j] > array[j+1])
 	      {
             CountPermutation++;
-	         int tmp = array[j];
-	         array[j] = array[j+1];
-            array[j+1] = tmp;	       
+            swap(array[j],array[j+1]);
          }
 	   }
    }
    
-   cout << "Sorting array by BubbleSort." << endl;
+   output << "Sorting array by BubbleSort." << endl;
    return array;
 }
 
@@ -94,7 +90,7 @@ int* BubbleSort(int* arr, int length)
 int* ShellSort(int* arr, int length){
    int* array = new int[length];
    memcpy(array,arr,length * sizeof(int));
-   int* h = new int [3] {5,2,1};
+   int* h = new int [3] {5,2,1}; // длина шагов
    for (int i = 0 ; i < 3; i++)
    {
       for(int m = 0; m < h[i]; m++)
@@ -115,7 +111,7 @@ int* ShellSort(int* arr, int length){
          }
       }
    }
-   cout << "Sorting array by ShellSort." << endl;
+   output << "Sorting array by ShellSort." << endl;
    return array;
 }
 
@@ -126,8 +122,9 @@ int* BinaryInstertionSort(int* arr, int length)
    memcpy(array,arr,length * sizeof(int));
    for (int i = 1 ; i < length; i++)
    {
-      int key = array[i];
-      int l = 0; int r = i-1; 
+      // бинарный поиск 
+      int key = array[i]; 
+      int l = 0; int r = i; 
       while(l < r){
          int mid = l + (r - l) /2;
          CountComparison++;
@@ -142,7 +139,44 @@ int* BinaryInstertionSort(int* arr, int length)
       }
       array[l] = key;
    }
-   cout << "Sorting array by BinaryInstertionSort." << endl;
+   output << "Sorting array by BinaryInstertionSort." << endl;
+   return array;
+}
+
+// Шейкер сортировка
+int* ShakerSort(int* arr, int length)
+{
+   int* array = new int[length];
+   memcpy(array,arr,length * sizeof(int));
+   int l = 0; int r = length-1; // левая и правая граница
+   bool permutation = true; // переменная для проверки наличия операции перестановки за проход
+   while (l < r && permutation) 
+   {
+      permutation = false;
+      for(int i = l; i < r; i ++)
+      {
+         CountComparison++;
+         if (array[i] > array[i+1])
+         {
+            CountPermutation++;
+            swap(array[i],array[i+1]);
+            permutation = true;
+         }
+      }
+      r--;
+      for (int i = r; i >= l; i--)
+      {
+         CountComparison++;
+         if (array[i] > array[i+1])
+         {
+            CountPermutation++;
+            swap(array[i],array[i+1]);
+            permutation = true;
+         }
+      }
+      l++;
+   }
+   output << "Sorting array by ShakerSort." << endl;
    return array;
 }
 
@@ -155,9 +189,9 @@ void FunctionStudy (int* (*function)(int* arr, int length) ,int* array,int lengt
    auto stop = high_resolution_clock::now(); // конец выполнения функции (время)
    PrintArray(sort_array,length_array);
    auto duration = duration_cast<microseconds>(stop - start); 
-   cout << "Time taken function:\t" << duration.count() << " microsecond" << endl;
-   cout << "Comprasion count in function:\t" << CountComparison << endl;
-   cout << "Permutation count in function:\t" << CountPermutation << endl << endl;
+   output << "Time taken function:\t" << duration.count() << " microsecond" << endl;
+   output << "Comprasion count in function:\t" << CountComparison << endl;
+   output << "Permutation count in function:\t" << CountPermutation << endl << endl;
    CountComparison = 0;
    CountPermutation = 0;
    delete[] sort_array; // очистка памяти от сортированного масива
@@ -167,47 +201,52 @@ int main()
 {
    const int length = 15; // длина массива (неизменная)
    
-   //------------------------ random array ------------------------------
+   // идет генерация массивов и вызова для них разных способов сортировки
+   // первый массив - рандомный, второй массив упорядоченный возрастанием, третий убыванием
+
+   output << "------------------------random array------------------------------------" << endl;
    int* array = new int[length];
    for (int i = 0 ; i < length; i++)
       array[i] = rand() % 1000;
-   cout << "Default array" << endl;
+   output << "Default array" << endl;
    PrintArray(array,length);
-   cout << endl;
+   output << endl;
    FunctionStudy(SelectionSort,array,length);
    FunctionStudy(InsertionSort,array,length);
    FunctionStudy(BubbleSort,array,length);\
    FunctionStudy(ShellSort,array,length);
    FunctionStudy(BinaryInstertionSort,array,length);
+   FunctionStudy(ShakerSort,array,length);
    // -------------------------------------------------------------------
-
-   //------------------------ increasing array --------------------------
+   output << "------------------------increasing array------------------------------------" << endl;
    array = new int[length];
    for (int i = 0 ; i < length; i++)
       array[i] = i*2; 
-   cout << "Default array" << endl;
+   output << "Default array" << endl;
    PrintArray(array,length);
-   cout << endl;
+   output << endl;
    FunctionStudy(SelectionSort,array,length);
    FunctionStudy(InsertionSort,array,length);
    FunctionStudy(BubbleSort,array,length);
    FunctionStudy(ShellSort,array,length);
    FunctionStudy(BinaryInstertionSort,array,length);
+   FunctionStudy(ShakerSort,array,length);
    // -------------------------------------------------------------------
-
-   //------------------------ decreasing array --------------------------
+   output << "------------------------decreasing array------------------------------------" << endl;
    array = new int[length];
    for (int i = 0 ; i < length; i++)
       array[i] = i*-2; 
-   cout << "Default array" << endl;
+   output << "Default array" << endl;
    PrintArray(array,length);
-   cout << endl;
+   output << endl;
    FunctionStudy(SelectionSort,array,length);
    FunctionStudy(InsertionSort,array,length);
    FunctionStudy(BubbleSort,array,length);
    FunctionStudy(ShellSort,array,length);
    FunctionStudy(BinaryInstertionSort,array,length);
+   FunctionStudy(ShakerSort,array,length);
    // -------------------------------------------------------------------
+   output.close();
    delete[] array;
    return 1;
 }

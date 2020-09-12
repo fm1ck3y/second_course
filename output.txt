@@ -1,0 +1,120 @@
+------------------------random array------------------------------------
+Default array
+383	886	777	915	793	335	386	492	649	421	362	27	690	59	763	
+
+Sorting array by SelectionSort.
+27	59	335	362	383	386	421	492	649	690	763	777	793	886	915	
+Time taken function:	8 microsecond
+Comprasion count in function:	120
+Permutation count in function:	15
+
+Sorting array by InstertionSort.
+27	59	335	362	383	386	421	492	649	690	763	777	793	886	915	
+Time taken function:	7 microsecond
+Comprasion count in function:	80
+Permutation count in function:	66
+
+Sorting array by BubbleSort.
+27	59	335	362	383	386	421	492	649	690	763	777	793	886	915	
+Time taken function:	8 microsecond
+Comprasion count in function:	105
+Permutation count in function:	66
+
+Sorting array by ShellSort.
+27	59	335	362	383	386	421	492	649	690	763	777	793	886	915	
+Time taken function:	8 microsecond
+Comprasion count in function:	169
+Permutation count in function:	45
+
+Sorting array by BinaryInstertionSort.
+27	59	335	362	383	386	421	492	649	690	763	777	793	886	915	
+Time taken function:	6 microsecond
+Comprasion count in function:	42
+Permutation count in function:	66
+
+Sorting array by ShakerSort.
+27	59	335	362	383	386	421	492	649	690	763	777	793	886	915	
+Time taken function:	8 microsecond
+Comprasion count in function:	100
+Permutation count in function:	66
+
+------------------------increasing array------------------------------------
+Default array
+0	2	4	6	8	10	12	14	16	18	20	22	24	26	28	
+
+Sorting array by SelectionSort.
+0	2	4	6	8	10	12	14	16	18	20	22	24	26	28	
+Time taken function:	6 microsecond
+Comprasion count in function:	120
+Permutation count in function:	15
+
+Sorting array by InstertionSort.
+0	2	4	6	8	10	12	14	16	18	20	22	24	26	28	
+Time taken function:	4 microsecond
+Comprasion count in function:	14
+Permutation count in function:	0
+
+Sorting array by BubbleSort.
+0	2	4	6	8	10	12	14	16	18	20	22	24	26	28	
+Time taken function:	5 microsecond
+Comprasion count in function:	105
+Permutation count in function:	0
+
+Sorting array by ShellSort.
+0	2	4	6	8	10	12	14	16	18	20	22	24	26	28	
+Time taken function:	10 microsecond
+Comprasion count in function:	169
+Permutation count in function:	45
+
+Sorting array by BinaryInstertionSort.
+0	2	4	6	8	10	12	14	16	18	20	22	24	26	28	
+Time taken function:	5 microsecond
+Comprasion count in function:	34
+Permutation count in function:	0
+
+Sorting array by ShakerSort.
+0	2	4	6	8	10	12	14	16	18	20	22	24	26	28	
+Time taken function:	4 microsecond
+Comprasion count in function:	28
+Permutation count in function:	0
+
+------------------------decreasing array------------------------------------
+Default array
+0	-2	-4	-6	-8	-10	-12	-14	-16	-18	-20	-22	-24	-26	-28	
+
+Sorting array by SelectionSort.
+-28	-26	-24	-22	-20	-18	-16	-14	-12	-10	-8	-6	-4	-2	0	
+Time taken function:	6 microsecond
+Comprasion count in function:	120
+Permutation count in function:	15
+
+Sorting array by InstertionSort.
+-28	-26	-24	-22	-20	-18	-16	-14	-12	-10	-8	-6	-4	-2	0	
+Time taken function:	8 microsecond
+Comprasion count in function:	119
+Permutation count in function:	105
+
+Sorting array by BubbleSort.
+-28	-26	-24	-22	-20	-18	-16	-14	-12	-10	-8	-6	-4	-2	0	
+Time taken function:	8 microsecond
+Comprasion count in function:	105
+Permutation count in function:	105
+
+Sorting array by ShellSort.
+-28	-26	-24	-22	-20	-18	-16	-14	-12	-10	-8	-6	-4	-2	0	
+Time taken function:	7 microsecond
+Comprasion count in function:	169
+Permutation count in function:	45
+
+Sorting array by BinaryInstertionSort.
+-28	-26	-24	-22	-20	-18	-16	-14	-12	-10	-8	-6	-4	-2	0	
+Time taken function:	6 microsecond
+Comprasion count in function:	45
+Permutation count in function:	105
+
+Sorting array by ShakerSort.
+-28	-26	-24	-22	-20	-18	-16	-14	-12	-10	-8	-6	-4	-2	0	
+Time taken function:	8 microsecond
+Comprasion count in function:	112
+Permutation count in function:	105
+
