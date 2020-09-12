@@ -90,6 +90,7 @@ int* BubbleSort(int* arr, int length)
    return array;
 }
 
+// сортировка Шелла
 int* ShellSort(int* arr, int length){
    int* array = new int[length];
    memcpy(array,arr,length * sizeof(int));
@@ -115,6 +116,33 @@ int* ShellSort(int* arr, int length){
       }
    }
    cout << "Sorting array by ShellSort." << endl;
+   return array;
+}
+
+// сортировка бинарными вставками
+int* BinaryInstertionSort(int* arr, int length)
+{
+   int* array = new int[length];
+   memcpy(array,arr,length * sizeof(int));
+   for (int i = 1 ; i < length; i++)
+   {
+      int key = array[i];
+      int l = 0; int r = i-1; 
+      while(l < r){
+         int mid = l + (r - l) /2;
+         CountComparison++;
+         if (key < array[mid])
+            r = mid;
+         else
+            l = mid +1;
+      }
+      for (int j = i ; j >= l+1; j--){
+         CountPermutation++;
+         array[j] = array[j-1];
+      }
+      array[l] = key;
+   }
+   cout << "Sorting array by BinaryInstertionSort." << endl;
    return array;
 }
 
@@ -150,6 +178,7 @@ int main()
    FunctionStudy(InsertionSort,array,length);
    FunctionStudy(BubbleSort,array,length);\
    FunctionStudy(ShellSort,array,length);
+   FunctionStudy(BinaryInstertionSort,array,length);
    // -------------------------------------------------------------------
 
    //------------------------ increasing array --------------------------
@@ -163,6 +192,7 @@ int main()
    FunctionStudy(InsertionSort,array,length);
    FunctionStudy(BubbleSort,array,length);
    FunctionStudy(ShellSort,array,length);
+   FunctionStudy(BinaryInstertionSort,array,length);
    // -------------------------------------------------------------------
 
    //------------------------ decreasing array --------------------------
@@ -176,6 +206,7 @@ int main()
    FunctionStudy(InsertionSort,array,length);
    FunctionStudy(BubbleSort,array,length);
    FunctionStudy(ShellSort,array,length);
+   FunctionStudy(BinaryInstertionSort,array,length);
    // -------------------------------------------------------------------
    delete[] array;
    return 1;
