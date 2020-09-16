@@ -143,6 +143,88 @@ int* BinaryInstertionSort(int* arr, int length)
    return array;
 }
 
+// рекурсивная функции сортировки деревом
+void treeRec(int* arr,int length,int i)
+{
+   int max = i; // наибольший элемент - корень
+   int l = 2*i + 1; // левый = 2*i + 1
+   int r = 2*i + 2; // правый = 2*i + 2
+   CountComparison++;
+   // если левый элемент больше корня
+   if (l < length && arr[l] > arr[max])
+      max = l;
+   CountComparison++;
+   // если правый элемент больше корня
+   if (r < length && arr[r] > arr[max])
+      max = r;
+   CountComparison++;
+   // если наибольший элемент, не является корнем
+   if (max != i)
+   {
+      CountPermutation++;
+      swap(arr[i], arr[max]);
+      treeRec(arr, length, max);
+   }
+}
+
+// главная функция сортировки деревом
+int* TreeSort(int* arr , int length)
+{
+   int* array = new int[length];
+   memcpy(array,arr,length * sizeof(int));
+   for (int i = length / 2 - 1; i >= 0; i--)
+      treeRec(array, length, i);
+   for (int i=length-1; i>=0; i--)
+   {  CountPermutation++;
+      swap(array[0], array[i]);
+      treeRec(array, i, 0);
+   }
+   output << "Sorting array by TreeSort." << endl;
+   return array;
+}
+
+// рекурсивная функция быстрой сортировки 
+void QuickSortRec(int* arr, int low, int high)
+{
+   int _low = low; // левая граница массива
+   int _high = high; // правая граница массива
+   int p = arr[(high + low) / 2]; // элемент с которым сравниваем
+   // в цикле сначало ставится указатель на элемент левее p 
+   // потом ставится указатель на элемент правее p
+   // они меняются местами, так будет до тех пор , пока границы не сойдутся вместе
+   while (_low < _high)
+   {
+      while(arr[_low] < p && _low <= _high)
+         _low++;
+      while(arr[_high] > p && _low <= _high)
+         _high--;
+      CountComparison++;
+      if (_low != _high){
+         CountPermutation++;
+         swap(arr[_low],arr[_high]);
+         _low++;
+         _high--;
+      }
+   }
+   CountComparison++;
+   // обрабатываем остальные границы 
+   if (_high > low)
+      QuickSortRec(arr,low,_high-1);
+   CountComparison++;
+   if (_low < high)
+      QuickSortRec(arr,_low+1,high);
+}
+
+// главная функция быстрой сортировки
+int* QuickSort(int* arr,int length)
+{
+   int* array = new int[length];
+   memcpy(array,arr,length * sizeof(int));
+   QuickSortRec(array,0,length-1);
+   output << "Sorting array by QuickSort." << endl;
+   return array;
+}
+
 // Шейкер сортировка
 int* ShakerSort(int* arr, int length)
 {
@@ -187,7 +269,7 @@ void FunctionStudy (int* (*function)(int* arr, int length) ,int* array,int lengt
    auto start = high_resolution_clock::now(); // начало выполнения функции (время)
    int* sort_array = function(array,length_array); 
    auto stop = high_resolution_clock::now(); // конец выполнения функции (время)
-   PrintArray(sort_array,length_array);
+   //PrintArray(sort_array,length_array);
    auto duration = duration_cast<microseconds>(stop - start); 
    output << "Time taken function:\t" << duration.count() << " microsecond" << endl;
    output << "Comprasion count in function:\t" << CountComparison << endl;
@@ -199,7 +281,7 @@ void FunctionStudy (int* (*function)(int* arr, int length) ,int* array,int lengt
 
 int main()
 {
-   const int length = 15; // длина массива (неизменная)
+   const int length = 150; // длина массива (неизменная)
    
    // идет генерация массивов и вызова для них разных способов сортировки
    // первый массив - рандомный, второй массив упорядоченный возрастанием, третий убыванием
@@ -217,6 +299,8 @@ int main()
    FunctionStudy(ShellSort,array,length);
    FunctionStudy(BinaryInstertionSort,array,length);
    FunctionStudy(ShakerSort,array,length);
+   FunctionStudy(TreeSort,array,length);
+   FunctionStudy(QuickSort,array,length);
    // -------------------------------------------------------------------
    output << "------------------------increasing array------------------------------------" << endl;
    array = new int[length];
@@ -231,6 +315,8 @@ int main()
    FunctionStudy(ShellSort,array,length);
    FunctionStudy(BinaryInstertionSort,array,length);
    FunctionStudy(ShakerSort,array,length);
+   FunctionStudy(TreeSort,array,length);
+   FunctionStudy(QuickSort,array,length);
    // -------------------------------------------------------------------
    output << "------------------------decreasing array------------------------------------" << endl;
    array = new int[length];
@@ -245,6 +331,8 @@ int main()
    FunctionStudy(ShellSort,array,length);
    FunctionStudy(BinaryInstertionSort,array,length);
    FunctionStudy(ShakerSort,array,length);
+   FunctionStudy(TreeSort,array,length);
+   FunctionStudy(QuickSort,array,length);
    // -------------------------------------------------------------------
    output.close();
    delete[] array;
