@@ -1,0 +1,44 @@
+PRAGMA foreign_keys=on;
+CREATE TABLE Payment(
+id INTEGER PRIMARY KEY AUTOINCREMENT,
+date TEXT NOT NULL,
+amount REAL CHECK(amount > 0),
+car_id INTEGER NOT NULL,
+FOREIGN KEY (car_id) REFERENCES car(id)
+);
+CREATE TABLE Visit(
+id INTEGER PRIMARY KEY AUTOINCREMENT,
+date TEXT NOT NULL,
+arrival INTEGER NOT NULL,
+car_id INTEGER NOT NULL,
+FOREIGN KEY (car_id) REFERENCES car(id)
+);
+CREATE TABLE Car(
+id INTEGER PRIMARY KEY AUTOINCREMENT,
+CarModel TEXT NOT NULL,
+Color TEXT NOT NULL,
+Place TEXT,
+stateNumber TEXT NOT NULL,
+region INTEGER NOT NULL,
+dateEnd TEXT NOT NULL,
+user_id INTEGER NOT NULL,
+FOREIGN KEY (user_id) REFERENCES User(id)
+);
+CREATE TABLE User(
+id INTEGER PRIMARY KEY AUTOINCREMENT,
+FIO TEXT NOT NULL,
+address TEXT NOT NULL,
+numberPhone TEXT NOT NULL,
+passport_number TEXT NOT NULL
+);
+
+
+INSERT INTO User(FIO,address,numberPhone,passport_number)
+VALUES ('Вдовин Артём Андреевич','Pushkina d.32 kv 99', '7912355678','22 13 123456')
+
+INSERT INTO Car(CarModel,Color,Place,stateNumber,region,dateEnd,user_id)
+VALUES ('Mitsubishi Lancer X','Red', 'A21','Y775KK',52,12521,1)
+
+INSERT INTO Car(CarModel,Color,Place,stateNumber,region,dateEnd,user_id)
+VALUES ('Mitsubishi Lancer X','Black', 'A22','K555LL',152,212521,1)
+

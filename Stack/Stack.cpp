@@ -18,7 +18,7 @@ template <typename T>
 T Stack<T>::Peek()
 {
     if (this->head == NULL)
-        throw std::range_error("Head is NULL");
+        throw std::cerr("Head is NULL");
     return this->head->value;
 }
 
@@ -34,7 +34,7 @@ void Stack<T>::Pop()
 {
     if (this->head == NULL)
     {
-        throw std::range_error("Head is NULL");
+        throw std::cerr("Head is NULL");
     }
     else
     {
