@@ -2,11 +2,18 @@
 #include <time.h>
 #include "Visit.h"
 #include "Car.h"
+
 Visit::Visit(Car *car, time_t Date, bool arrival)
 {
     this->car = car;
     this->date = date;
     this->arrival = arrival;
+}
+Visit::Visit()
+{
+    this->car = new Car();
+    this->date = 0;
+    this->arrival = false;
 }
 
 int Visit::GetId() { return this->id; }
@@ -14,6 +21,7 @@ Car *Visit::GetCar() { return this->car; }
 time_t Visit::GetDate() { return this->date; }
 bool Visit::IsArrival() { return this->arrival; }
 
+void Visit::SetID(int id) { this->id = id; }
 void Visit::SetCar(Car *car) { this->car = car; }
 void Visit::SetDate(time_t date) { this->date = date; }
 void Visit::SetArrival(bool arrival) { this->arrival = arrival; }

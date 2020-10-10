@@ -14,12 +14,13 @@ private:
     bool arrival; // заезд = True, выезд = False
 public:
     Visit(Car *car, time_t Date, bool arrival);
-
+    Visit();
     int GetId();
     Car *GetCar();
     time_t GetDate();
     bool IsArrival();
 
+    void SetID(int id);
     void SetCar(Car *car);
     void SetDate(time_t date);
     void SetArrival(bool arrival);

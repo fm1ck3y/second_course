@@ -14,12 +14,13 @@ private:
     Car *car;      // машина, за которую платили
 public:
     Payment(time_t Date, double amount, Car *car);
-
+    Payment();
     int GetId();
     time_t GetDate();
     double GetAmount();
     Car *GetCar();
 
+    void SetID(int id);
     void SetDate(time_t Date);
     void SetAmount(double amount);
     void SetCar(Car *car);

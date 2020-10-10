@@ -3,25 +3,22 @@
 #include <iostream>
 #include <time.h>
 #include <list>
-// forward declaration
-class Payment;
-class Visit;
-class User;
+
+class User; // forward declaration
 
 class Car
 {
 private:
     int id;
-    std::string CarModel;                       // модель автомобиля
-    std::string Color;                          // цвет автомобиля
-    std::string Place;                          // место на парковке
-    std::string stateNumber;                    // государственный номер автомобиля
-    int region;                                 // регион
-    User *driver;                               // водитель (владелец)
-    std::list<Visit *> historyVisit;     // история посещений стоянки
-    std::list<Payment *> historyPayment; // история оплаты места
-    time_t DateEnd;                             // дата окончания оплаты за место
+    std::string CarModel;    // модель автомобиля
+    std::string Color;       // цвет автомобиля
+    std::string Place;       // место на парковке
+    std::string stateNumber; // государственный номер автомобиля
+    User *driver;            // владелец авто
+    int region;              // регион
+    time_t DateEnd;          // дата окончания оплаты за место
 public:
+    Car();
     Car(std::string Place, std::string stateNumber, int region, User *driver,
         std::string CarModel, std::string Color);
     ~Car();
@@ -32,15 +29,12 @@ public:
     std::string GetColor();
     int GetRegion();
     User *GetDriver();
-    std::list<Payment*> GetAllHistoryPayment();
-    std::list<Visit *> GetAllHistoryVisit();
     time_t GetDateEnd();
 
+    void SetID(int id);
     void SetPlace(std::string Place);
-    void AddToHistoryVisit(Visit *historyVisit);
     void SetStateNumber(std::string stateNumber);
     void SetRegion(int region);
-    void AddToHistoryPayment(Payment *payment);
     void SetDriver(User *driver);
     void SetDateEnd(time_t DateEnd);
     void SetColor(std::string Color);

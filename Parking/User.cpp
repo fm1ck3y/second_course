@@ -1,50 +1,39 @@
 #include <iostream>
 #include <list>
-#include "Car.h"
 #include "User.h"
-#include "Database/database.cpp"
+
 User::User(std::string FIO, std::string address,
            std::string numberPhone, std::string passport_number)
 {
-    this->id = NULL;
+    this->id = -1;
     this->FIO = FIO;
     this->address = address;
     this->numberPhone = numberPhone;
     this->passport_number = passport_number;
 }
-
-User::~User()
+User::User()
 {
-    for (auto car : this->cars)
-        delete car;
+    this->id = -1;
+    this->FIO = "";
+    this->address = "";
+    this->numberPhone = "";
+    this->passport_number = "";
 }
+
+
+User::~User() {}
 
 int User::GetId() { return this->id; }
 std::string User::GetFIO() { return this->FIO; }
 std::string User::GetAddress() { return this->address; }
-std::list<Car *> User::GetAllCars() { return this->cars; }
 std::string User::GetNumberPhone() { return this->numberPhone; }
+std::string User::GetPassportNumber() { return this->passport_number; }
 
+void User::SetID(int id) { this->id = id; }
 void User::SetFIO(std::string FIO) { this->FIO = FIO; }
-void User::SetAddress(std::string adress) { this->address = address; }
-void User::AddCar(Car *car) { this->cars.push_back(car); }
+void User::SetAddress(std::string address) { this->address = address; }
 void User::SetNumberPhone(std::string numberPhone) { this->numberPhone = numberPhone; }
-void User::Save()
-{
-    if (this->id == NULL)
-    {
-        try
-        {
-            Database *db = new Database("/home/m1ck3y/programming/cpp/secondCourse/Parking/Database/mydata.db");
-            db->AddUserToDatabase(this->FIO, this->address, this->numberPhone, this->passport_number);
-            delete db;
-        }
-        catch (std::string err)
-        {
-            std::cerr << err << std::endl;
-        }
-    }
-}
+void User::SetPassportNumber(std::string passport) { this->passport_number = passport; }
 
 void User::PrintInfo()
 {
