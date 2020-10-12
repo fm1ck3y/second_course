@@ -42,18 +42,43 @@ bool Database::Connect()
     return true;
 }
 
-void Database::AddUserToDatabase(std::string FIO, std::string address, std::string numberPhone, std::string passport_number)
+void Database::AddUserToDatabase(User *user)
 {
-    std::string sql = "INSERT INTO User(FIO,address,numberPhone,passport_number) VALUES ('" + FIO + "','" + address + "', '" + numberPhone + "','" + passport_number + "')";
+    for (auto _user : this->users)
+        if (user->GetId() == _user->GetId())
+            return;
+    this->users.push_back(user);
+    std::string sql = "INSERT INTO User(FIO,address,numberPhone,passport_number) VALUES ('" + user->GetFIO() + "', '" + user->GetAddress() + "', '" + user->GetNumberPhone() + "', '" + user->GetPassportNumber() + "')";
     char sql_char[sql.length()];
     strcpy(sql_char, sql.c_str());
     if (Connect())
-        sqlite3_exec(db, sql_char, callback, 0, &zErrMsg);
+        if (sqlite3_exec(db, sql_char, callback, 0, &zErrMsg) != SQLITE_OK)
+            std::cerr << "Bad execute : " << sqlite3_errmsg << std::endl;
     sqlite3_close(db);
+}
+
+void Database::ClearDatabase()
+{
+    for (auto car : this->cars)
+        delete car;
+    this->cars = std::list<Car *>();
+
+    for (auto user : this->users)
+        delete user;
+    this->users = std::list<User *>();
+
+    for (auto visit : this->visits)
+        delete visit;
+    this->visits = std::list<Visit *>();
+
+    for (auto payment : this->payments)
+        delete payment;
+    this->payments = std::list<Payment *>();
 }
 
 void Database::DownloadAllDatabase()
 {
+    this->ClearDatabase();
     if (Connect())
     {
         this->DownloadAllUsers();
@@ -65,7 +90,7 @@ void Database::DownloadAllDatabase()
 
 void Database::DownloadAllVisits()
 {
-    char sql[] = "Select * From Visit";
+    char *sql = "Select * From Visit";
     sqlite3_stmt *statement;
     if (sqlite3_prepare_v2(db, sql, -1, &statement, 0) == SQLITE_OK)
     {
@@ -74,7 +99,7 @@ void Database::DownloadAllVisits()
             Visit *visit = new Visit();
             visit->SetID(std::stoi(std::string(reinterpret_cast<const char *>(
                 sqlite3_column_text(statement, 0)))));
-            visit->SetDate(std::stoi(std::string(reinterpret_cast<const char *>(
+            visit->SetDate(std::stol(std::string(reinterpret_cast<const char *>(
                 sqlite3_column_text(statement, 1)))));
             visit->SetArrival(std::stoi(std::string(reinterpret_cast<const char *>(
                 sqlite3_column_text(statement, 2)))));
@@ -92,24 +117,21 @@ void Database::DownloadAllVisits()
         sqlite3_finalize(statement);
     }
     //delete statement;
-    //delete sql;
+    //delete[] sql;
 }
 
 void Database::DownloadAllPayments()
 {
-    char sql[] = "Select * From Payment";
+    char *sql = "Select * From Payment";
     sqlite3_stmt *statement;
     if (sqlite3_prepare_v2(db, sql, -1, &statement, 0) == SQLITE_OK)
     {
         while (sqlite3_step(statement) == SQLITE_ROW)
         {
             Payment *payment = new Payment();
-            payment->SetID(std::stoi(std::string(reinterpret_cast<const char *>(
-                sqlite3_column_text(statement, 0)))));
-            payment->SetDate(std::stoi(std::string(reinterpret_cast<const char *>(
-                sqlite3_column_text(statement, 1)))));
-            payment->SetAmount(std::stof(std::string(reinterpret_cast<const char *>(
-                sqlite3_column_text(statement, 2)))));
+            payment->SetID(std::stoi(std::string(reinterpret_cast<const char *>(sqlite3_column_text(statement, 0)))));
+            payment->SetDate(std::stol(std::string(reinterpret_cast<const char *>(sqlite3_column_text(statement, 1)))));
+            payment->SetAmount(std::stof(std::string(reinterpret_cast<const char *>(sqlite3_column_text(statement, 2)))));
             int car_id = std::stoi(std::string(reinterpret_cast<const char *>(sqlite3_column_text(statement, 3))));
             for (auto car : this->cars)
             {
@@ -124,12 +146,12 @@ void Database::DownloadAllPayments()
         sqlite3_finalize(statement);
     }
     //delete statement;
-    //delete sql;
+    //delete[] sql;
 }
 
 void Database::DownloadAllUsers()
 {
-    char sql[] = "Select * From User";
+    char *sql = "Select * From User";
     sqlite3_stmt *statement;
     if (sqlite3_prepare_v2(db, sql, -1, &statement, 0) == SQLITE_OK)
     {
@@ -150,12 +172,12 @@ void Database::DownloadAllUsers()
         }
         sqlite3_finalize(statement);
     }
-
+    //delete[] sql;
 }
 
 void Database::DownloadAllCars()
 {
-    char sql[] = "Select * From Car";
+    char *sql = "Select * From Car";
     sqlite3_stmt *statement;
     if (sqlite3_prepare_v2(db, sql, -1, &statement, 0) == SQLITE_OK)
     {
@@ -174,7 +196,7 @@ void Database::DownloadAllCars()
                 sqlite3_column_text(statement, 4))));
             car->SetRegion(std::stoi(std::string(reinterpret_cast<const char *>(
                 sqlite3_column_text(statement, 5)))));
-            
+
             car->SetDateEnd(std::stoi(std::string(reinterpret_cast<const char *>(
                 sqlite3_column_text(statement, 6)))));
             int user_id = std::stoi(std::string(reinterpret_cast<const char *>(sqlite3_column_text(statement, 7))));
@@ -190,6 +212,52 @@ void Database::DownloadAllCars()
         }
         sqlite3_finalize(statement);
     }
+    //delete[] sql;
+}
+
+void Database::AddCarToDatabase(Car *car)
+{
+    for (auto _car : this->cars)
+        if (car->GetId() == _car->GetId())
+            return;
+    this->cars.push_back(car);
+    std::string sql = "INSERT INTO Car(CarModel,Color,Place,stateNumber,region,dateEnd,user_id) VALUES ('" + car->GetCarModel() + "','" + car->GetColor() + "', '" + car->GetPlace() + "','" + car->GetStateNumber() + "','" + std::to_string(car->GetRegion()) + "','" + std::to_string(car->GetDateEnd()) + "','" + std::to_string(car->GetDriver()->GetId()) + "')";
+    char sql_char[sql.length()];
+    strcpy(sql_char, sql.c_str());
+    if (Connect())
+        if (sqlite3_exec(db, sql_char, callback, 0, &zErrMsg) != SQLITE_OK)
+            std::cerr << "Bad execute : " << sqlite3_errmsg << std::endl;
+    sqlite3_close(db);
+}
+
+void Database::AddVisitToDatabase(Visit *visit)
+{
+    for (auto _visit : this->visits)
+        if (visit->GetId() == _visit->GetId())
+            return;
+    this->visits.push_back(visit);
+    std::string sql = "INSERT INTO Visit(date,arrival,car_id) VALUES ('" + std::to_string(visit->GetDate()) + "','" + std::to_string(visit->IsArrival()) + "', '" + std::to_string(visit->GetCar()->GetId()) + "')";
+    char sql_char[sql.length()];
+    strcpy(sql_char, sql.c_str());
+    if (Connect())
+        if (sqlite3_exec(db, sql_char, callback, 0, &zErrMsg) != SQLITE_OK)
+            std::cerr << "Bad execute : " << sqlite3_errmsg << std::endl;
+    sqlite3_close(db);
+}
+
+void Database::AddPaymentToDatabase(Payment *payment)
+{
+    for (auto _payment : this->payments)
+        if (payment->GetId() == _payment->GetId())
+            return;
+    this->payments.push_back(payment);
+    std::string sql = "INSERT INTO Payment(date,amount,car_id) VALUES ('" + std::to_string(payment->GetDate()) + "','" + std::to_string(payment->GetAmount()) + "', '" + std::to_string(payment->GetCar()->GetId()) + "')";
+    char sql_char[sql.length()];
+    strcpy(sql_char, sql.c_str());
+    if (Connect())
+        if (sqlite3_exec(db, sql_char, callback, 0, &zErrMsg) != SQLITE_OK)
+            std::cerr << "Bad execute : " << sqlite3_errmsg << std::endl;
+    sqlite3_close(db);
 }
 
 std::list<Car *> Database::GetAllCars() { return this->cars; }

@@ -42,3 +42,8 @@ VALUES ('Mitsubishi Lancer X','Red', 'A21','Y775KK',52,12521,1)
 INSERT INTO Car(CarModel,Color,Place,stateNumber,region,dateEnd,user_id)
 VALUES ('Mitsubishi Lancer X','Black', 'A22','K555LL',152,212521,1)
 
+INSERT INTO Visit(date,arrival,car_id)
+VALUES (22222,1,1)
+
+INSERT INTO Visit(date,arrival,car_id)
+VALUES (22555,0,1)
