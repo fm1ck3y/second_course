@@ -20,6 +20,7 @@ public:
          std::string numberPhone, std::string passport_number);
     User();
     ~User();
+    User(const User &user);
     int GetId();
     std::string GetFIO();
     std::string GetAddress();

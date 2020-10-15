@@ -21,6 +21,7 @@ public:
     Car();
     Car(std::string Place, std::string stateNumber, int region, User *driver,
         std::string CarModel, std::string Color);
+    Car(const Car &car);
     ~Car();
     int GetId();
     std::string GetPlace();

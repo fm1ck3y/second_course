@@ -15,6 +15,7 @@ private:
 public:
     Payment(time_t Date, double amount, Car *car);
     Payment();
+    Payment(const Payment &payment);
     int GetId();
     time_t GetDate();
     double GetAmount();

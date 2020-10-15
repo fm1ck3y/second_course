@@ -16,6 +16,14 @@ Visit::Visit()
     this->arrival = false;
 }
 
+Visit::Visit(const Visit &visit)
+{
+    this->id = visit.id;
+    this->car = visit.car;
+    this->date = visit.date;
+    this->arrival = visit.arrival;
+}
+
 int Visit::GetId() { return this->id; }
 Car *Visit::GetCar() { return this->car; }
 time_t Visit::GetDate() { return this->date; }

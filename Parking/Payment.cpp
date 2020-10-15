@@ -17,6 +17,14 @@ Payment::Payment()
     this->amount = -1;
 }
 
+Payment::Payment(const Payment &payment)
+{
+    this->id = payment.id;
+    this->Date = payment.Date;
+    this->amount = payment.amount;
+    this->car = payment.car;
+}
+
 double Payment::GetAmount() { return this->amount; }
 Car *Payment::GetCar() { return this->car; }
 time_t Payment::GetDate() { return this->Date; }

@@ -31,6 +31,18 @@ Car::Car()
     this->Color = "";
 }
 
+Car::Car(const Car &car)
+{
+    this->id = car.id;
+    this->Color = car.Color;
+    this->CarModel = car.CarModel;
+    this->Place = car.Place;
+    this->stateNumber = car.stateNumber;
+    this->driver = car.driver;
+    this->region = car.region;
+    this->DateEnd = car.DateEnd;
+}
+
 std::string Car::GetPlace() { return this->Place; }
 std::string Car::GetStateNumber() { return this->stateNumber; }
 int Car::GetId() { return this->id; }

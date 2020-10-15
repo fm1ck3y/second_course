@@ -113,6 +113,7 @@ void Database::DownloadAllVisits()
                 }
             }
             this->visits.push_back(visit);
+            this->visits_for_save.push_back(new Visit(*visit));
         }
         sqlite3_finalize(statement);
     }
@@ -142,6 +143,7 @@ void Database::DownloadAllPayments()
                 }
             }
             this->payments.push_back(payment);
+            this->payments_for_save.push_back(new Payment(*payment));
         }
         sqlite3_finalize(statement);
     }
@@ -169,6 +171,7 @@ void Database::DownloadAllUsers()
             user->SetNumberPhone(std::string(reinterpret_cast<const char *>(
                 sqlite3_column_text(statement, 4))));
             this->users.push_back(user);
+            this->users_for_save.push_back(new User(*user));
         }
         sqlite3_finalize(statement);
     }
@@ -209,6 +212,7 @@ void Database::DownloadAllCars()
                 }
             }
             this->cars.push_back(car);
+            this->cars_for_save.push_back(new Car(*car));
         }
         sqlite3_finalize(statement);
     }
@@ -258,6 +262,51 @@ void Database::AddPaymentToDatabase(Payment *payment)
         if (sqlite3_exec(db, sql_char, callback, 0, &zErrMsg) != SQLITE_OK)
             std::cerr << "Bad execute : " << sqlite3_errmsg << std::endl;
     sqlite3_close(db);
+}
+
+void Database::UpdateCar(Car *car)
+{
+    std::string sql_req = "";
+    std::list<Car *> cars = this->cars_for_save;
+    Car *this_car = nullptr;
+    for (auto _car : cars)
+    {
+        if (car->GetId() == _car->GetId())
+        {
+            this_car = _car;
+            break;
+        }
+    }
+    if (this_car != nullptr)
+    {
+        if (Connect())
+        {
+            if (this_car->GetPlace() != car->GetPlace())
+                sql_req += "UPDATE Car SET Place ='" + car->GetPlace() + "' WHERE id =" + std::to_string(car->GetId()) + ";\n";
+            if (this_car->GetStateNumber() != car->GetStateNumber())
+                sql_req += "UPDATE Car SET stateNumber ='" + car->GetStateNumber() + "' WHERE id =" + std::to_string(car->GetId()) + ";\n";
+            if (this_car->GetCarModel() != car->GetCarModel())
+                sql_req += "UPDATE Car SET CarNodel ='" + car->GetCarModel() + "' WHERE id =" + std::to_string(car->GetId()) + ";\n";
+            if (this_car->GetColor() != car->GetColor())
+                sql_req += "UPDATE Car SET Color ='" + car->GetColor() + "' WHERE id =" + std::to_string(car->GetId()) + ";\n";
+            if (this_car->GetRegion() != car->GetRegion())
+                sql_req += "UPDATE Car SET region ='" + std::to_string(car->GetRegion()) + "' WHERE id =" + std::to_string(car->GetId()) + ";\n";
+            if (this_car->GetDriver()->GetId() != car->GetDriver()->GetId())
+                sql_req += "UPDATE Car SET user_id ='" + std::to_string(car->GetDriver()->GetId()) + "' WHERE id =" + std::to_string(car->GetId()) + ";\n";
+            if (this_car->GetDateEnd() != car->GetDateEnd())
+                sql_req += "UPDATE Car SET dateEnd ='" + std::to_string(car->GetDateEnd()) + "' WHERE id =" + std::to_string(car->GetId()) + ";\n";
+            if (sql_req != "")
+            {
+                char sql_char[sql_req.length()];
+                strcpy(sql_char, sql_req.c_str());
+                if (sqlite3_exec(db, sql_char, callback, 0, &zErrMsg) != SQLITE_OK)
+                    std::cerr << "Bad execute : " << sqlite3_errmsg << std::endl;
+                sqlite3_close(db);
+                this->DownloadAllDatabase();
+            }
+        }
+    }
+    delete this_car;
 }
 
 std::list<Car *> Database::GetAllCars() { return this->cars; }

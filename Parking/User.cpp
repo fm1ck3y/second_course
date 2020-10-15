@@ -23,6 +23,15 @@ User::User()
 
 User::~User() {}
 
+User::User(const User &user)
+{
+    this->id = user.id;
+    this->address = user.address;
+    this->FIO = user.FIO;
+    this->numberPhone = user.numberPhone;
+    this->passport_number = passport_number;
+}
+
 int User::GetId() { return this->id; }
 std::string User::GetFIO() { return this->FIO; }
 std::string User::GetAddress() { return this->address; }

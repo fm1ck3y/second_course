@@ -21,6 +21,11 @@ private:
     std::list<Payment *> payments;
     std::list<Visit *> visits;
 
+    std::list<Car *> cars_for_save;
+    std::list<User *> users_for_save;
+    std::list<Payment *> payments_for_save;
+    std::list<Visit *> visits_for_save;
+
     void DownloadAllCars();
     void DownloadAllUsers();
     void DownloadAllVisits();
@@ -42,8 +47,8 @@ public:
     std::list<Payment *> GetAllPayment();
     std::list<Visit *> GetAllVisit();
     // need to implement
-    void UpdateCar(User *user);
-    void UpdateUser(Car *car);
+    void UpdateUser(User *user);
+    void UpdateCar(Car *car);
     void UpdatePayment(Payment *payment);
     void UpdateVisit();
 };

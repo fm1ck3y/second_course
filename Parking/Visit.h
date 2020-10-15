@@ -15,6 +15,7 @@ private:
 public:
     Visit(Car *car, time_t Date, bool arrival);
     Visit();
+    Visit(const Visit &visit);
     int GetId();
     Car *GetCar();
     time_t GetDate();
