@@ -4,6 +4,7 @@
 #include <iostream>
 #include <list>
 #include "db/database.h"
+#include <any>
 
 class Car; // forward declaration
 
@@ -17,6 +18,7 @@ private:
     std::string passport_number; // паспортные данные (номер и серия)
     //добавить фото
 public:
+    static std::list<User*> users;
     User(std::string FIO, std::string address,
          std::string numberPhone, std::string passport_number);
     User();
@@ -28,7 +30,6 @@ public:
     std::string GetNumberPhone();
     std::string GetPassportNumber();
 
-    void SetID(int id);
     void SetFIO(std::string FIO);
     void SetAddress(std::string adress);
     void SetPassportNumber(std::string passport);
@@ -36,5 +37,6 @@ public:
     void PrintInfo();
 
     void Create() override final;
+    static void Select();
 };
 #endif

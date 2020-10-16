@@ -24,6 +24,7 @@ public:
         std::string CarModel, std::string Color);
     Car(const Car &car);
     ~Car();
+    static std::list<Car*> cars;
     int GetId();
     std::string GetPlace();
     std::string GetStateNumber();
@@ -33,7 +34,6 @@ public:
     User *GetDriver();
     time_t GetDateEnd();
 
-    void SetID(int id);
     void SetPlace(std::string Place);
     void SetStateNumber(std::string stateNumber);
     void SetRegion(int region);
@@ -43,6 +43,7 @@ public:
     void SetCarModel(std::string CarModel);
     void PrintInfo();
 
+    static void Select();
     void Create() override final;
 };
 #endif

@@ -17,17 +17,18 @@ public:
     Payment(time_t Date, double amount, Car *car);
     Payment();
     Payment(const Payment &payment);
+    static std::list<Payment*> payments;
     int GetId();
     time_t GetDate();
     double GetAmount();
     Car *GetCar();
 
-    void SetID(int id);
     void SetDate(time_t Date);
     void SetAmount(double amount);
     void SetCar(Car *car);
     void PrintInfo();
 
     void Create() override final;
+    static void Select();
 };
 #endif

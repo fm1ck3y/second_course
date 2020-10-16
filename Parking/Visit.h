@@ -16,17 +16,18 @@ public:
     Visit(Car *car, time_t Date, bool arrival);
     Visit();
     Visit(const Visit &visit);
+    static std::list<Visit*> visits;
     int GetId();
     Car *GetCar();
     time_t GetDate();
     bool IsArrival();
 
-    void SetID(int id);
     void SetCar(Car *car);
     void SetDate(time_t date);
     void SetArrival(bool arrival);
     void PrintInfo();
 
     void Create() override final;
+    static void Select();
 };
 #endif

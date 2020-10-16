@@ -14,7 +14,7 @@ int Database::callback(void *NotUsed, int argc, char **argv, char **azColName)
     return 0;
 }
 
-Database::~Database()
+void Database::Disconnect()
 {
     if (db != NULL)
     {
@@ -46,3 +46,4 @@ void Database::Create() { return; }
 void Database::Save() { return; }
 char* Database::name_db = "";
 char* Database::zErrMsg = "";
+sqlite3 * Database::db = NULL;

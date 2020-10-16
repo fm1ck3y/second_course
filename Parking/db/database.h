@@ -8,19 +8,18 @@
 class Database
 {
 private:
-    sqlite3 *db = NULL;
     static int callback(void *NotUsed, int argc, char **argv, char **azColName);
 
 protected:
+    static sqlite3 *db;
     static char *zErrMsg;
-    void Execute(std::string sql);
-
-public:
-    ~Database();
-    static char *name_db;
     virtual void Save();
     virtual void Create();
-    bool Connect();
+    static void Execute(std::string sql);
+public:
+    static char *name_db;
+    static bool Connect();
+    static void Disconnect();
 };
 
 #endif

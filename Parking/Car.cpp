@@ -4,7 +4,6 @@
 #include "Car.h"
 #include "User.h"
 
-
 Car::Car(std::string Place, std::string stateNumber, int region, User *driver,
          std::string CarModel, std::string Color)
 {
@@ -52,7 +51,6 @@ time_t Car::GetDateEnd() { return this->DateEnd; }
 std::string Car::GetCarModel() { return this->CarModel; }
 std::string Car::GetColor() { return this->Color; }
 
-void Car::SetID(int id) { this->id = id; }
 void Car::SetPlace(std::string Place) { this->Place = Place; }
 void Car::SetStateNumber(std::string stateNumber) { this->stateNumber = stateNumber; }
 void Car::SetRegion(int region) { this->region = region; }
@@ -76,3 +74,63 @@ void Car::Create()
     std::string sql = "INSERT INTO Car(CarModel,Color,Place,stateNumber,region,dateEnd,user_id) VALUES ('" + this->CarModel + "','" + this->Color + "', '" + this->Place + "','" + this->stateNumber + "','" + std::to_string(this->region) + "','" + std::to_string(this->DateEnd) + "','" + std::to_string(this->driver->GetId()) + "')";
     Execute(sql);
 }
+
+void Car::Select()
+{
+    char *sql = "Select * From Car";
+    sqlite3_stmt *statement_cars;
+    if (sqlite3_prepare_v2(db, sql, -1, &statement_cars, 0) == SQLITE_OK)
+    {
+        while (sqlite3_step(statement_cars) == SQLITE_ROW)
+        {
+            Car *car = new Car();
+            car->id = std::stoi(std::string(reinterpret_cast<const char *>(sqlite3_column_text(statement_cars, 0))));
+            car->CarModel = std::string(reinterpret_cast<const char *>(sqlite3_column_text(statement_cars, 1)));
+            car->Color = std::string(reinterpret_cast<const char *>(sqlite3_column_text(statement_cars, 2)));
+            car->Place = std::string(reinterpret_cast<const char *>(sqlite3_column_text(statement_cars, 3)));
+            car->stateNumber = std::string(reinterpret_cast<const char *>(sqlite3_column_text(statement_cars, 4)));
+            car->region = std::stoi(std::string(reinterpret_cast<const char *>(sqlite3_column_text(statement_cars, 5))));
+            car->DateEnd = std::stoi(std::string(reinterpret_cast<const char *>(sqlite3_column_text(statement_cars, 6))));
+            int user_id = std::stoi(std::string(reinterpret_cast<const char *>(sqlite3_column_text(statement_cars, 7))));
+            
+            User::Select();
+            for (auto user : User::users)
+            {
+                if (user->GetId() == user_id)
+                {
+                    car->driver = user;
+                    break;
+                }
+            }
+            Car *this_car = nullptr;
+            for (auto _car : Car::cars)
+                if (car->id == _car->id)
+                    this_car = _car;
+            if (this_car != nullptr)
+            {
+                if (this_car->CarModel != car->CarModel)
+                    this_car->CarModel = car->CarModel;
+                if (this_car->Color != car->Color)
+                    this_car->Color = car->Color;
+                if (this_car->Place != car->Place)
+                    this_car->Place = car->Place;
+                if (this_car->stateNumber != car->stateNumber)
+                    this_car->stateNumber = car->stateNumber;
+                if (this_car->region != car->region)
+                    this_car->region = car->region;
+                if (this_car->DateEnd != car->DateEnd)
+                    this_car->DateEnd = car->DateEnd;
+                if (this_car->driver != car->driver)
+                    this_car->driver = car->driver;
+                delete car;
+            }
+            else
+            {
+                Car::cars.push_back(car);
+            }
+        }
+        sqlite3_finalize(statement_cars);
+    }
+}
+
+std::list<Car *> Car::cars;
