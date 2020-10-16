@@ -2,7 +2,7 @@
 #include <time.h>
 #include "Visit.h"
 #include "Car.h"
-
+#include <any>
 Visit::Visit(Car *car, time_t Date, bool arrival)
 {
     this->car = car;
@@ -43,4 +43,10 @@ void Visit::PrintInfo()
         std::cout << "\tАвтомобиль выехал" << std::endl;
     std::cout << "\tДата: " << this->date << std::endl;
     this->car->PrintInfo();
+}
+
+void Visit::Create()
+{
+    std::string sql = "INSERT INTO Visit(date,arrival,car_id) VALUES ('" + std::to_string(this->date) + "','" + std::to_string(this->arrival) + "', '" + std::to_string(this->car->GetId()) + "')";
+    Execute(sql);
 }

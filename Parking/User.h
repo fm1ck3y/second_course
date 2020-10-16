@@ -3,10 +3,11 @@
 
 #include <iostream>
 #include <list>
+#include "db/database.h"
 
 class Car; // forward declaration
 
-class User
+class User : Database
 {
 private:
     int id;
@@ -34,6 +35,6 @@ public:
     void SetNumberPhone(std::string numberPhone);
     void PrintInfo();
 
-    void Save();
+    void Create() override final;
 };
 #endif

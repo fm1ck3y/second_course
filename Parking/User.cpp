@@ -52,3 +52,9 @@ void User::PrintInfo()
     std::cout << "\tНомер телефона : " << this->numberPhone << std::endl;
     std::cout << "\tПаспортные данные : " << this->passport_number << std::endl;
 }
+
+void User::Create()
+{
+    std::string sql = "INSERT INTO User(FIO,address,numberPhone,passport_number) VALUES ('" + this->FIO + "', '" + this->address + "', '" + this->numberPhone + "', '" + this->passport_number + "')";
+    Execute(sql);
+}

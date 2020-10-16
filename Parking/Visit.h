@@ -2,10 +2,10 @@
 #define VISIT_H
 #include <iostream>
 #include <time.h>
-
+#include "db/database.h"
 class Car; // forward declaration
 
-class Visit
+class Visit : Database
 {
 private:
     int id;
@@ -25,7 +25,8 @@ public:
     void SetCar(Car *car);
     void SetDate(time_t date);
     void SetArrival(bool arrival);
-
     void PrintInfo();
+
+    void Create() override final;
 };
 #endif

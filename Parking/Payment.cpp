@@ -41,3 +41,9 @@ void Payment::PrintInfo()
     std::cout << "\tСумма оплаты: " << this->amount << std::endl;
     this->car->PrintInfo();
 }
+
+void Payment::Create()
+{
+    std::string sql = "INSERT INTO Payment(date,amount,car_id) VALUES ('" + std::to_string(this->Date) + "','" + std::to_string(this->amount) + "', '" + std::to_string(this->car->GetId()) + "')";
+    Execute(sql);
+}

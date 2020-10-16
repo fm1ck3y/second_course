@@ -2,10 +2,11 @@
 #define PAYMENT_H
 #include <iostream>
 #include <time.h>
+#include "db/database.h"
 
 class Car; // forward declaration
 
-class Payment
+class Payment : Database
 {
 private:
     int id;
@@ -26,5 +27,7 @@ public:
     void SetAmount(double amount);
     void SetCar(Car *car);
     void PrintInfo();
+
+    void Create() override final;
 };
 #endif

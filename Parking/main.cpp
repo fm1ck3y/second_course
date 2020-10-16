@@ -4,21 +4,23 @@
 #include "User.h"
 #include "Visit.h"
 #include "Payment.h"
-#include "Database/database.h"
+#include "db/database.h"
 
 using namespace std;
 int main()
 {
-    Database *db = new Database("/home/m1ck3y/programming/cpp/secondCourse/Parking/Database/mydata.db");
-    db->DownloadAllDatabase();
-    list<Car*> cars = db->GetAllCars();
-    Car *update_car = *(cars.begin());
-    for (auto car : cars){
-        car->PrintInfo();
-        cout << endl << endl;
-    }
-    update_car->SetColor("Black");
-    db->UpdateCar(update_car);
+    Database::name_db = "/home/m1ck3y/programming/cpp/secondCourse/Parking/Database/mydata.db";
+    User *user = new User("Вдовин Артём Андреевич","Линина 71", "78005553535","22 15 333333");
+    user->Create();
+
+    //list<Car*> cars = db->GetAllCars();
+    // Car *update_car = *(cars.begin());
+    // for (auto car : cars){
+    //     car->PrintInfo();
+    //     cout << endl << endl;
+    // }
+    // update_car->SetColor("Black");
+    // db->UpdateCar(update_car);
     //db->AddUserToDatabase(new User("Софронов Лев Владимирович","Lenana 44", "78005553535","22 15 444444"));
     
     //db->AddVisitToDatabase(new Visit(*cars.begin(),time(0),1));

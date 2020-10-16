@@ -70,3 +70,9 @@ void Car::PrintInfo()
     std::cout << "\tНомер автомобиля: " << this->stateNumber << " Регион: " << this->region << std::endl;
     std::cout << "\tДата окончания бронирования места: " << this->DateEnd << std::endl; // изменить на нормальный вывод даты
 }
+
+void Car::Create()
+{
+    std::string sql = "INSERT INTO Car(CarModel,Color,Place,stateNumber,region,dateEnd,user_id) VALUES ('" + this->CarModel + "','" + this->Color + "', '" + this->Place + "','" + this->stateNumber + "','" + std::to_string(this->region) + "','" + std::to_string(this->DateEnd) + "','" + std::to_string(this->driver->GetId()) + "')";
+    Execute(sql);
+}
