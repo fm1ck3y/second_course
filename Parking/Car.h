@@ -45,5 +45,7 @@ public:
 
     static void Select();
     void Create() override final;
+    void Save() override final;
+    void Delete() override final;
 };
 #endif

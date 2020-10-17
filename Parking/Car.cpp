@@ -17,6 +17,7 @@ Car::Car(std::string Place, std::string stateNumber, int region, User *driver,
 }
 Car::~Car()
 {
+    
 }
 
 Car::Car()
@@ -131,6 +132,35 @@ void Car::Select()
         }
         sqlite3_finalize(statement_cars);
     }
+}
+
+void Car::Save()
+{
+    if (this->id == -1)
+        this->Create();
+    else
+    {
+        std::string sql = "";
+        sql += "UPDATE Car SET CarModel = '" + this->CarModel + "' WHERE id = " + std::to_string(this->id) + ";\n";
+        sql += "UPDATE Car SET Color = '" + this->Color + "' WHERE id = " + std::to_string(this->id) + ";\n";
+        sql += "UPDATE Car SET Place = '" + this->Place  + "' WHERE id = " + std::to_string(this->id) + ";\n";
+        sql += "UPDATE Car SET stateNumber = '" + this->stateNumber  + "' WHERE id = " + std::to_string(this->id) + ";\n";
+        sql += "UPDATE Car SET region = '" + std::to_string(this->region)  + "' WHERE id = " + std::to_string(this->id) + ";\n";
+        sql += "UPDATE Car SET dateEnd = '" + std::to_string(this->DateEnd)  + "' WHERE id = " + std::to_string(this->id) + ";\n";
+        sql += "UPDATE Car SET user_id = '" + std::to_string(this->driver->GetId())  + "' WHERE id = " + std::to_string(this->id) + ";\n";
+        Execute(sql);
+    }
+}
+
+
+void Car::Delete()
+{
+    if(this->id != -1)
+    {
+        std::string sql = "DELETE FROM Car Where id =" + std::to_string(this->id);
+        Execute(sql);
+    }
+    delete this;
 }
 
 std::list<Car *> Car::cars;

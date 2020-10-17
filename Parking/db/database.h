@@ -15,6 +15,7 @@ protected:
     static char *zErrMsg;
     virtual void Save();
     virtual void Create();
+    virtual void Delete();
     static void Execute(std::string sql);
 public:
     static char *name_db;

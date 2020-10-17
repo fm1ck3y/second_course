@@ -21,7 +21,9 @@ User::User()
     this->passport_number = "";
 }
 
-User::~User() {}
+User::~User()
+{
+}
 
 User::User(const User &user)
 {
@@ -93,8 +95,38 @@ void User::Select()
             {
                 User::users.push_back(user);
             }
+            if (this_user == nullptr) delete this_user;
         }
         sqlite3_finalize(statement_users);
     }
+    // free(*sql);
+    //free(statement_users); 
 }
+
+void User::Save()
+{
+    if (this->id == -1)
+        this->Create();
+    else
+    {
+        std::string sql = "";
+        sql += "UPDATE User SET FIO = '" + this->FIO + "' WHERE id = " + std::to_string(this->id) + ";\n";
+        sql += "UPDATE User SET address = '" + this->address + "' WHERE id = " + std::to_string(this->id) + ";\n";
+        sql += "UPDATE User SET passport_number = '" + this->passport_number + "' WHERE id = " + std::to_string(this->id) + ";\n";
+        sql += "UPDATE User SET numberPhone = '" + this->numberPhone + "' WHERE id = " + std::to_string(this->id) + ";\n";
+        Execute(sql);
+    }
+}
+
+void User::Delete()
+{
+    if (this->id != -1)
+    {
+        std::string sql = "DELETE FROM User Where id =" + std::to_string(this->id);
+        //Execute(sql);
+    }
+    User::users.remove(this);
+    delete this;
+}
+
 std::list<User *> User::users;

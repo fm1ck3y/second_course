@@ -15,6 +15,7 @@ private:
 public:
     Visit(Car *car, time_t Date, bool arrival);
     Visit();
+    ~Visit();
     Visit(const Visit &visit);
     static std::list<Visit*> visits;
     int GetId();
@@ -28,6 +29,9 @@ public:
     void PrintInfo();
 
     void Create() override final;
+    void Save() override final;
+    void Delete() override final;
     static void Select();
+    
 };
 #endif

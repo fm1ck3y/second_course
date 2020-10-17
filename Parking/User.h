@@ -37,6 +37,8 @@ public:
     void PrintInfo();
 
     void Create() override final;
+    void Save() override final;
+    void Delete() override final;
     static void Select();
 };
 #endif

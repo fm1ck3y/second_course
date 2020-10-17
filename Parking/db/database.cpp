@@ -4,21 +4,12 @@
 #include <list>
 #include "database.h"
 
-int Database::callback(void *NotUsed, int argc, char **argv, char **azColName)
-{
-    for (int i = 0; i < argc; i++)
-    {
-        std::cout << azColName[i] << ": " << argv[i] << std::endl;
-    }
-    std::cout << std::endl;
-    return 0;
-}
-
 void Database::Disconnect()
 {
     if (db != NULL)
     {
         sqlite3_close(db);
+        db = nullptr;
     }
 }
 
@@ -27,7 +18,7 @@ void Database::Execute(std::string sql)
     char sql_char[sql.length()];
     std::strcpy(sql_char, sql.c_str());
     if (Connect())
-        if (sqlite3_exec(db, sql_char, callback, 0, &Database::zErrMsg) != SQLITE_OK)
+        if (sqlite3_exec(db, sql_char, NULL, 0, &Database::zErrMsg) != SQLITE_OK)
             std::cerr << "Bad execute : " << sqlite3_errmsg << std::endl;
 }
 
@@ -44,6 +35,7 @@ bool Database::Connect()
 
 void Database::Create() { return; }
 void Database::Save() { return; }
-char* Database::name_db = "";
-char* Database::zErrMsg = "";
-sqlite3 * Database::db = NULL;
+void Database::Delete() { return; }
+char* Database::name_db = nullptr;
+char* Database::zErrMsg = nullptr;
+sqlite3 * Database::db = nullptr;

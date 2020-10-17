@@ -1,0 +1,33 @@
+==15505== Memcheck, a memory error detector
+==15505== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==15505== Using Valgrind-3.15.0 and LibVEX; rerun with -h for copyright info
+==15505== Command: ./main
+==15505== 
+==15505== 
+==15505== HEAP SUMMARY:
+==15505==     in use at exit: 109,600 bytes in 221 blocks
+==15505==   total heap usage: 2,642 allocs, 2,421 frees, 573,275 bytes allocated
+==15505== 
+==15505== 109,464 (800 direct, 108,664 indirect) bytes in 1 blocks are definitely lost in loss record 128 of 128
+==15505==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==15505==    by 0x48ADCFA: ??? (in /usr/lib/x86_64-linux-gnu/libsqlite3.so.0.8.6)
+==15505==    by 0x4880450: ??? (in /usr/lib/x86_64-linux-gnu/libsqlite3.so.0.8.6)
+==15505==    by 0x4880519: ??? (in /usr/lib/x86_64-linux-gnu/libsqlite3.so.0.8.6)
+==15505==    by 0x4950DBD: ??? (in /usr/lib/x86_64-linux-gnu/libsqlite3.so.0.8.6)
+==15505==    by 0x114FFE: Database::Connect() (in /home/m1ck3y/programming/cpp/secondCourse/Parking/main)
+==15505==    by 0x10B9BA: main (in /home/m1ck3y/programming/cpp/secondCourse/Parking/main)
+==15505== 
+==15505== LEAK SUMMARY:
+==15505==    definitely lost: 800 bytes in 1 blocks
+==15505==    indirectly lost: 108,664 bytes in 218 blocks
+==15505==      possibly lost: 0 bytes in 0 blocks
+==15505==    still reachable: 136 bytes in 2 blocks
+==15505==                       of which reachable via heuristic:
+==15505==                         length64           : 136 bytes in 2 blocks
+==15505==         suppressed: 0 bytes in 0 blocks
+==15505== Reachable blocks (those to which a pointer was found) are not shown.
+==15505== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==15505== 
+==15505== For lists of detected and suppressed errors, rerun with: -s
+==15505== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 0 from 0)
+

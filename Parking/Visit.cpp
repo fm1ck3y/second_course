@@ -11,7 +11,7 @@ Visit::Visit(Car *car, time_t Date, bool arrival)
 }
 Visit::Visit()
 {
-    this->car = new Car();
+    this->car = nullptr;
     this->date = 0;
     this->arrival = false;
 }
@@ -22,6 +22,10 @@ Visit::Visit(const Visit &visit)
     this->car = visit.car;
     this->date = visit.date;
     this->arrival = visit.arrival;
+}
+Visit::~Visit()
+{
+    
 }
 
 int Visit::GetId() { return this->id; }
@@ -93,6 +97,30 @@ void Visit::Select()
         }
         sqlite3_finalize(statement_visit);
     }
+}
+
+void Visit::Save()
+{
+    if (this->id == -1)
+        this->Create();
+    else
+    {
+        std::string sql = "";
+        sql += "UPDATE Visit SET date = '" + std::to_string(this->date) + "' WHERE id = " + std::to_string(this->id) + ";\n";
+        sql += "UPDATE Visit SET arrival = '" + std::to_string(this->arrival) + "' WHERE id = " + std::to_string(this->id) + ";\n";
+        sql += "UPDATE Visit SET car_id = '" + std::to_string(this->car->GetId()) + "' WHERE id = " + std::to_string(this->id) + ";\n";
+        Execute(sql);
+    }
+}
+
+void Visit::Delete()
+{
+    if(this->id != -1)
+    {
+        std::string sql = "DELETE FROM Visit Where id =" + std::to_string(this->id);
+        Execute(sql);
+    }
+    delete this;
 }
 
 std::list<Visit *> Visit::visits;

@@ -12,7 +12,7 @@ Payment::Payment(time_t Date, double amount, Car *car)
 
 Payment::Payment()
 {
-    this->car = new Car();
+    this->car = nullptr;
     this->Date = -1;
     this->amount = -1;
 }
@@ -91,6 +91,30 @@ void Payment::Select()
         }
         sqlite3_finalize(statement_cars);
     }
+}
+
+void Payment::Save()
+{
+    if (this->id == -1)
+        this->Create();
+    else
+    {
+        std::string sql = "";
+        sql += "UPDATE Payment SET date = '" + std::to_string(this->Date) + "' WHERE id = " + std::to_string(this->id) + ";\n";
+        sql += "UPDATE Payment SET amount = '" + std::to_string(this->amount) + "' WHERE id = " + std::to_string(this->id) + ";\n";
+        sql += "UPDATE Payment SET car_id = '" + std::to_string(this->car->GetId()) + "' WHERE id = " + std::to_string(this->id) + ";\n";
+        Execute(sql);
+    }
+}
+
+void Payment::Delete()
+{
+    if (this->id != -1)
+    {
+        std::string sql = "DELETE FROM Payment Where id =" + std::to_string(this->id);
+        Execute(sql);
+    }
+    delete this;
 }
 
 std::list<Payment *> Payment::payments;
