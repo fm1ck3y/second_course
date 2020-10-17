@@ -76,6 +76,8 @@ void Visit::Select()
                     break;
                 }
             }
+
+            // если объект уже существует в списке, то его нужно изменить, а не выделить новую память
             Visit *this_visit = nullptr;
             for (auto _visit : Visit::visits)
                 if (visit->id == _visit->id)
@@ -120,6 +122,7 @@ void Visit::Delete()
         std::string sql = "DELETE FROM Visit Where id =" + std::to_string(this->id);
         Execute(sql);
     }
+    Visit::visits.remove(this);
     delete this;
 }
 

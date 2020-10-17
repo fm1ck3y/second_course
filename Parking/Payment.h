@@ -14,10 +14,10 @@ private:
     double amount; // сумма оплаты
     Car *car;      // машина, за которую платили
 public:
-    Payment(time_t Date, double amount, Car *car);
-    Payment();
-    Payment(const Payment &payment);
-    static std::list<Payment*> payments;
+    Payment(time_t Date, double amount, Car *car); // конструктор с параметрами
+    Payment();                                     // обычный конструктор
+    Payment(const Payment &payment);               // конструктор копирования
+    static std::list<Payment *> payments;          // список всех пополнений
     int GetId();
     time_t GetDate();
     double GetAmount();
@@ -31,6 +31,6 @@ public:
     void Create() override final;
     void Save() override final;
     void Delete() override final;
-    static void Select();
+    static void Select(); // выгрузка из БД
 };
 #endif

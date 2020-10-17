@@ -13,11 +13,11 @@ private:
     time_t date;  // дата визита
     bool arrival; // заезд = True, выезд = False
 public:
-    Visit(Car *car, time_t Date, bool arrival);
-    Visit();
-    ~Visit();
-    Visit(const Visit &visit);
-    static std::list<Visit*> visits;
+    Visit(Car *car, time_t Date, bool arrival); // конструктор с параметрами
+    Visit();                                    // обычный конструктор
+    ~Visit();                                   // деструктор
+    Visit(const Visit &visit);                  // конструктор копирования
+    static std::list<Visit *> visits;           // список всех визитов
     int GetId();
     Car *GetCar();
     time_t GetDate();
@@ -31,7 +31,6 @@ public:
     void Create() override final;
     void Save() override final;
     void Delete() override final;
-    static void Select();
-    
+    static void Select(); // выгрузка из БД
 };
 #endif

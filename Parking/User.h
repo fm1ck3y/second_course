@@ -18,12 +18,12 @@ private:
     std::string passport_number; // паспортные данные (номер и серия)
     //добавить фото
 public:
-    static std::list<User*> users;
+    static std::list<User *> users; // список всех пользователей
     User(std::string FIO, std::string address,
-         std::string numberPhone, std::string passport_number);
-    User();
-    ~User();
-    User(const User &user);
+         std::string numberPhone, std::string passport_number); // конструктор с параметрами
+    User();                                                     // обычный конструктор
+    ~User();                                                    // деструктор
+    User(const User &user);                                     // конструктор копирования
     int GetId();
     std::string GetFIO();
     std::string GetAddress();
@@ -39,6 +39,6 @@ public:
     void Create() override final;
     void Save() override final;
     void Delete() override final;
-    static void Select();
+    static void Select(); // загрузка из БД
 };
 #endif

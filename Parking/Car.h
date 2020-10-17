@@ -19,12 +19,12 @@ private:
     int region;              // регион
     time_t DateEnd;          // дата окончания оплаты за место
 public:
-    Car();
+    Car(); // обычный конструктор
     Car(std::string Place, std::string stateNumber, int region, User *driver,
-        std::string CarModel, std::string Color);
-    Car(const Car &car);
-    ~Car();
-    static std::list<Car*> cars;
+        std::string CarModel, std::string Color); // конструктор с параметрами
+    Car(const Car &car);                          // конструктор копирования
+    ~Car();                                       // деструктор
+    static std::list<Car *> cars;                 // список всех машин
     int GetId();
     std::string GetPlace();
     std::string GetStateNumber();
@@ -43,7 +43,7 @@ public:
     void SetCarModel(std::string CarModel);
     void PrintInfo();
 
-    static void Select();
+    static void Select(); // выгрузка из БД
     void Create() override final;
     void Save() override final;
     void Delete() override final;

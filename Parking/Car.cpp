@@ -103,6 +103,8 @@ void Car::Select()
                     break;
                 }
             }
+
+            // если объект уже существует в списке, то его нужно изменить, а не выделить новую память
             Car *this_car = nullptr;
             for (auto _car : Car::cars)
                 if (car->id == _car->id)
@@ -160,6 +162,7 @@ void Car::Delete()
         std::string sql = "DELETE FROM Car Where id =" + std::to_string(this->id);
         Execute(sql);
     }
+    Car::cars.remove(this);
     delete this;
 }
 

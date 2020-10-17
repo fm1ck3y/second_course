@@ -69,7 +69,8 @@ void Payment::Select()
                     break;
                 }
             }
-
+            
+            // если объект уже существует в списке, то его нужно изменить, а не выделить новую память
             Payment *this_payment = nullptr;
             for (auto _payment : Payment::payments)
                 if (payment->id == _payment->id)
@@ -114,6 +115,7 @@ void Payment::Delete()
         std::string sql = "DELETE FROM Payment Where id =" + std::to_string(this->id);
         Execute(sql);
     }
+    Payment::payments.remove(this);
     delete this;
 }
 

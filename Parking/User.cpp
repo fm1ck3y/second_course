@@ -75,6 +75,7 @@ void User::Select()
             user->passport_number = std::string(reinterpret_cast<const char *>(sqlite3_column_text(statement_users, 3)));
             user->numberPhone = std::string(reinterpret_cast<const char *>(sqlite3_column_text(statement_users, 4)));
 
+            // если объект уже существует в списке, то его нужно изменить, а не выделить новую память
             User *this_user = nullptr;
             for (auto _user : User::users)
                 if (user->id == _user->id)
@@ -99,8 +100,6 @@ void User::Select()
         }
         sqlite3_finalize(statement_users);
     }
-    // free(*sql);
-    //free(statement_users); 
 }
 
 void User::Save()
@@ -123,7 +122,7 @@ void User::Delete()
     if (this->id != -1)
     {
         std::string sql = "DELETE FROM User Where id =" + std::to_string(this->id);
-        //Execute(sql);
+        Execute(sql);
     }
     User::users.remove(this);
     delete this;
