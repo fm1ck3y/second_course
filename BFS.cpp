@@ -3,7 +3,7 @@
 #include <list>
 
 // Обход графа в ширину
-void BFS(char v, std::map<char, bool> &Visited, std::list<char> &BypassOrder, std::map<char, std::list<char>> Graph)
+void BFS(char v, std::map<char, bool> &Visited, std::list<char> &BypassOrder, std::map<char, std::list<char>> &Graph)
 {
     if (Visited[v]) // проверка на то, была ли вершина уже в обходе
         return;
