@@ -1,6 +1,6 @@
 #pragma once
-#ifndef LIST_H
-#define LIST_H
+#ifndef DBLLISTH_H
+#define DBLLISTH_H
 template <typename T>
 class List
 {
@@ -10,10 +10,12 @@ private:
     public:
         T value;    // значение элемента
         Node *next; // следующий элемент
-        Node(T value, Node *next)
+        Node *prev; // предыдущий элемент
+        Node(T value, Node *next, Node *prev)
         {
             this->value = value;
             this->next = next;
+            this->prev = prev;
         }
     };
     Node *head;       // верхний элемент спиcка
@@ -23,7 +25,7 @@ private:
 public:
     List();                         // конструктор списка
     ~List();                        // деструктор списка (очистка памяти)
-    List(const List &list);         // конструктор копирование списка
+    List(const List &list);        // конструктор копирование списка
     T &operator[](const int index); // оператор индексации в списке
     int GetCount();                 // количество элементов в списке
     void Add(T value);              // добавление элемента в список

@@ -1,5 +1,5 @@
 #include <iostream>
-#include "List.cpp"
+#include "DblList.cpp"
 using namespace std;
 
 int main()
@@ -12,8 +12,10 @@ int main()
     list.Add(1);
     list.Add(9);
     list.Print();
+    //List<int> newList = list;
+    //newList.Print();
     cout << "Second node in list: " << list[1] << endl;
-    list.Delete(1);
+    cout << "Deleted second node in list" << endl;
     cout << "Second node in list: " << list[1] << endl;
     list.Print();
     list.Clear();

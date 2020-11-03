@@ -18,7 +18,7 @@ template <typename T>
 T Stack<T>::Peek()
 {
     if (this->head == NULL)
-        throw std::cerr("Head is NULL");
+        std::cerr << "Head is null" << std::endl;
     return this->head->value;
 }
 
@@ -34,7 +34,7 @@ void Stack<T>::Pop()
 {
     if (this->head == NULL)
     {
-        throw std::cerr("Head is NULL");
+        std::cerr << "Head is null" << std::endl;
     }
     else
     {
@@ -84,7 +84,7 @@ T &Stack<T>::operator[](const int index)
     int i = 0;
     if (index > this->count)
     {
-        throw std::range_error("Index out of stack");
+        std::cerr << "Index out of the stack" << std::endl;
     }
     Element *head = this->head;
     while (count - i - 1 != index)

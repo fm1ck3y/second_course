@@ -12,6 +12,8 @@ int main()
     stack.Pop();
     stack.Push(4);
     stack.Print();
+    Stack<int> newStack = stack;
+    newStack.Print();
     cout << "Second element in Stack = " << stack[1] << endl;
     cout << "Count elements in Stack = " << stack.GetCount() << endl;
     stack.Clear();

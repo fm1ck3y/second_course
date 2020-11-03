@@ -1,5 +1,5 @@
 #include <iostream>
-#include "List.h"
+#include "DblList.h"
 using namespace std;
 
 template <typename T>
@@ -28,7 +28,7 @@ List<T>::List(const List &list)
 template <typename T>
 void List<T>::Add(T value)
 {
-    Node *node = new Node(value, NULL);
+    Node *node = new Node(value, NULL, this->tail);
     if (this->head == NULL)
         this->head = node;
     else
@@ -47,24 +47,25 @@ void List<T>::Delete(int index)
     }
     else
     {
-        Node *temp_node;
         if (index == 0)
         {
-            temp_node = this->head;
+            Node *temp_node = this->head;
+            if (this->head->next != NULL)
+                this->head->next->prev = NULL;
             this->head = this->head->next;
+            delete temp_node;
         }
         else
         {
             int counter = 0;
             Node *node = this->head;
-            while (counter++ != index - 1)
+            while (counter++ != index)
                 node = node->next;
-            temp_node = node->next;
+            node->prev->next = node->next;
             if (node->next != NULL)
-                node->next = node->next->next;
-            this->Count--;
+                node->next->prev = node->prev;
+            delete node;
         }
-        delete temp_node;
     }
 }
 
@@ -74,13 +75,13 @@ void List<T>::Clear()
     if (this->head != NULL)
     {
         Node *node = this->head;
-        Node *next;
-        while (node != NULL)
+        while (node->next != NULL)
         {
-            next = node->next;
-            delete node;
-            node = next;
+            node = node->next;
+            if (node->prev != NULL)
+                delete node->prev;
         }
+        delete node;
         this->head = NULL;
     }
     Count = 0;
