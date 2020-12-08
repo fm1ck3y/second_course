@@ -7,7 +7,7 @@ template <typename T>
 class Stack
 {
 private:
-    int max_stack = MAX_STACK;
+    const int max_stack = MAX_STACK;
     T *array = new T[MAX_STACK];
     int head;
 

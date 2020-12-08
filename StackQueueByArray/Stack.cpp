@@ -25,6 +25,8 @@ T Stack<T>::Peek()
 template <typename T>
 void Stack<T>::Push(T value)
 {
+    if (head >= MAX_STACK)
+        std::cerr << "Stack is full" << std::endl;
     this->array[++head] = value;
 }
 
@@ -48,9 +50,11 @@ template <typename T>
 Stack<T>::Stack(const Stack &stack)
 {
     this->head = stack.head;
-    int _head = stack.head;
-    while (stack.head != -1)
-        this->array[_head--] = stack.array[_head];
+    int counter = stack.head;
+    while (counter >= 0){
+        this->array[counter] = stack.array[counter];
+        counter--;
+    }
 }
 
 template <typename T>
