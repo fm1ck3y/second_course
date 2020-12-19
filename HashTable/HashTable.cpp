@@ -30,9 +30,11 @@ uint8_t HashTable<K, V>::HashFunc(int key)
 template <typename K, typename V>
 uint8_t HashTable<K, V>::HashFunc(std::string key)
 {
-    uint32_t hashvalue;
-    for (std::size_t i = 0; i < key[i] != '\0'; i++)
-        hashvalue += (uint64_t)key[i] % this->size;
+    uint64_t hashvalue, pow_p = 1;
+    for (std::size_t i = 0; i < key[i] != '\0'; i++){
+        hashvalue += (uint64_t)key[i]*pow_p % this->size;
+        pow_p *= this->p;
+    }
     return hashvalue % this->size;
 }
 

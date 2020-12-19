@@ -12,7 +12,7 @@ int main(void)
     // for (auto el : *_l)
     //    std::cout << el << std::endl;
 
-    HashTable<std::string, int> *hashtab = new HashTable<std::string, int>(4);
+    HashTable<std::string, int> *hashtab = new HashTable<std::string, int>(17);
     hashtab->Add("hello", 22);
     hashtab->Add("world", 333);
     hashtab->Add("kek", 999);
