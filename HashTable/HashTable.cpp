@@ -5,8 +5,10 @@
 template <typename K, typename V>
 HashTable<K, V>::HashTable(uint8_t size)
 {
+    // check on type value and key (on this moment ready string and int)
     if ((!std::is_same<K, int>::value && !std::is_same<K, std::string>::value) || (!std::is_same<V, int>::value && !std::is_same<V, std::string>::value))
         std::cerr << "type not supported" << std::endl;
+    // memory allocation for table 
     this->table = (std::list<HashInfo<K, V>> **)malloc(size * sizeof(std::list<HashInfo<K, V>>));
     for (std::size_t i = 0; i < size; i++)
         this->table[i] = new std::list<HashInfo<K, V>>();
@@ -21,18 +23,22 @@ HashTable<K, V>::~HashTable()
     free(this->table);
 }
 
+// modulus method for int
 template <typename K, typename V>
 uint8_t HashTable<K, V>::HashFunc(int key)
 {
     return key % this->size;
 }
 
+// polinom method with const p
 template <typename K, typename V>
 uint8_t HashTable<K, V>::HashFunc(std::string key)
 {
-    uint32_t hashvalue;
-    for (std::size_t i = 0; i < key[i] != '\0'; i++)
-        hashvalue += (uint64_t)key[i] % this->size;
+    uint64_t hashvalue, pow_p = 1;
+    for (std::size_t i = 0; i < key[i] != '\0'; i++){
+        hashvalue += (uint64_t)key[i]*pow_p % this->size;
+        pow_p *= this->p;
+    }
     return hashvalue % this->size;
 }
 
