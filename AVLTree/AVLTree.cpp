@@ -118,20 +118,21 @@ NodeTree<T> *AVLTree<T>::rightRotate(NodeTree<T> *y)
 }
 
 template <typename T>
-void AVLTree<T>::TreePrintRec(NodeTree<T> *root)
+void AVLTree<T>::TreePrintRec(NodeTree<T> *root, NodeTree<T> *prev)
 {
     if (root == NULL)
         return;
     // рекурсивный вывод дерева (думаю ,что объяснять не стоит)
-    TreePrintRec(root->left);
-    std::cout << root->value << " ";
-    TreePrintRec(root->right);
+    TreePrintRec(root->left, root);
+    std::string parent = prev != NULL ? std::to_string(prev->value) : "null";
+    std::cout << root->value << "(" << parent << ") ";
+    TreePrintRec(root->right, root);
 }
 
 template <typename T>
 void AVLTree<T>::TreePrint()
 {
-    this->TreePrintRec(this->root);
+    this->TreePrintRec(this->root, NULL);
     std::cout << std::endl;
 }
 

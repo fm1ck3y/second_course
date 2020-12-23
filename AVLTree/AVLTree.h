@@ -8,7 +8,7 @@ class AVLTree
 {
 private:
     NodeTree<T> *root;                // корень дерева
-    void TreePrintRec(NodeTree<T> *); // рекурсивная печать дерева(основная функция вывода)
+    void TreePrintRec(NodeTree<T> *,NodeTree<T> *); // рекурсивная печать дерева(основная функция вывода)
     void FreeMemory(NodeTree<T> *);   // очистка памяти для отдельного узла
     void CopyTree(NodeTree<T> *);     // рекурсивный метод копирования
 
