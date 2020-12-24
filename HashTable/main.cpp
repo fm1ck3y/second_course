@@ -41,7 +41,6 @@ int GetInput()
 template <typename K, typename V>
 bool HandlerMenu(int menuIn, HashTable<K, V> *hashtab)
 {
-    system("clear");
     switch (menuIn)
     {
     case Menu::Add:
@@ -53,6 +52,7 @@ bool HandlerMenu(int menuIn, HashTable<K, V> *hashtab)
         std::cout << "Enter value for add >> ";
         std::cin >> value;
         hashtab->Add(key, value);
+        system("clear");
         std::cout << "Value added successfully!" << std::endl;
         break;
     }
@@ -63,6 +63,7 @@ bool HandlerMenu(int menuIn, HashTable<K, V> *hashtab)
         std::cout << "Enter key for delete >> ";
         std::cin >> key;
         hashtab->Remove(key);
+        system("clear");
         std::cout << "Value is removed." << std::endl;
         break;
     }
@@ -72,7 +73,9 @@ bool HandlerMenu(int menuIn, HashTable<K, V> *hashtab)
         K key;
         std::cout << "Enter key for get >> ";
         std::cin >> key;
-        if (!hashtab->IsExist(key)){
+        system("clear");
+        if (!hashtab->IsExist(key))
+        {
             std::cout << "Value not found." << std::endl;
             break;
         }
@@ -83,6 +86,7 @@ bool HandlerMenu(int menuIn, HashTable<K, V> *hashtab)
 
     case Menu::Print:
     {
+        system("clear");
         hashtab->Print();
         break;
     }
@@ -92,6 +96,7 @@ bool HandlerMenu(int menuIn, HashTable<K, V> *hashtab)
         K key;
         std::cout << "Enter key for check >> ";
         std::cin >> key;
+        system("clear");
         if (hashtab->IsExist(key))
             std::cout << "Value found." << std::endl;
         else
@@ -100,10 +105,12 @@ bool HandlerMenu(int menuIn, HashTable<K, V> *hashtab)
     }
 
     case Menu::Exit:
+        system("clear");
         return true;
 
     default:
     {
+        system("clear");
         std::cout << "Invalid enter number. Try again." << std::endl;
         break;
     }

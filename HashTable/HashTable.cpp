@@ -34,7 +34,7 @@ uint8_t HashTable<K, V>::HashFunc(int key)
 template <typename K, typename V>
 uint8_t HashTable<K, V>::HashFunc(std::string key)
 {
-    uint64_t hashvalue, pow_p = 1;
+    uint64_t hashvalue = 0, pow_p = 1;
     for (std::size_t i = 0; i < key[i] != '\0'; i++)
     {
         hashvalue += (uint64_t)key[i] * pow_p % this->size;
@@ -46,6 +46,7 @@ uint8_t HashTable<K, V>::HashFunc(std::string key)
 template <typename K, typename V>
 void HashTable<K, V>::Add(K key, V value)
 {
+    // check value on exist  
     if (this->IsExist(key))
         return;
     uint8_t hashkey = this->HashFunc(key);
@@ -58,19 +59,14 @@ void HashTable<K, V>::Add(K key, V value)
 template <typename K, typename V>
 void HashTable<K, V>::Print()
 {
-    std::cout << "{" << std::endl;
     for (std::size_t i = 0; i < this->size; i++)
     {
         std::list<HashInfo<K, V>> l = *this->table[i];
         if (l.size() <= 0)
             continue;
-        std::cout << "\t" << i << " => "
-                  << "[ ";
         for (auto el : l)
-            std::cout << el;
-        std::cout << "]" << std::endl;
+            std::cout << "[Hash] = " << i << ", "<< el << std::endl;
     }
-    std::cout << "}\n";
 }
 
 template <typename K, typename V>

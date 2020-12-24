@@ -11,26 +11,21 @@ int main()
     tree->Insert(8);
     tree->Insert(24);
     tree->Insert(1);
+    cout << "************************************" << endl;
+    cout << "Вставили элементы" << endl;
     tree->TreePrint();
     tree->Delete(24);
+    cout << "************************************" << endl;
+    cout << "Удалили узел со значением 24" << endl;
     tree->TreePrint();
-
-    cout << "Check copy constructor" << endl;
-    Tree<int> *newTree = new Tree<int>(*tree);
-    newTree->Delete(7);
-    cout << "New Tree: " << endl;
-    newTree->TreePrint();
-
-    cout << "Old Tree: " << endl;
-    tree->TreePrint();
-
-    int *array = new int[10]{8, 7, 1, 3, 6, 12, 6, 5, 9, 10};
-    Tree<int> *arrayTree = new Tree<int>(array, 10);
-    cout << "Tree by array:" << endl;
-    arrayTree->TreePrint();
-
+    cout << "************************************" << endl;
+    cout << "Находим узел по значению 1:" << endl;
+    NodeTree<int> *node = tree->FindNode(1);
+    if (node != NULL)
+        cout << "Узел со значением <" << node->value << "> находится по адресу " << node << endl;
+    else
+        cout << "Узел не найден." << endl;
+    cout << "************************************" << endl;
+    cout << "Проверяем конструктор копирования" << endl;
     delete tree;
-    delete arrayTree;
-    delete newTree;
-    delete[] array;
 }

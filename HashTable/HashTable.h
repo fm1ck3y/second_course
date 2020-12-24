@@ -19,7 +19,7 @@ public:
 template <typename K, typename V>
 std::ostream &operator<<(std::ostream &out, const HashInfo<K, V> hi)
 {
-    return out << "[" << hi.key << " : " << hi.value << "] ";
+    return out << "[Key] = " << hi.key << ", [Value] = " << hi.value;
 };
 
 template <typename K, typename V>

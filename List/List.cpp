@@ -117,7 +117,7 @@ void List<T>::Print()
     Node *node = this->head;
     while (node != NULL)
     {
-        std::cout << node->value << " ";
+        std::cout << node->value << ", ";
         node = node->next;
     }
     std::cout << std::endl;

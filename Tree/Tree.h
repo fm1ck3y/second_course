@@ -1,8 +1,7 @@
 #pragma once
 #ifndef TREE_H
 #define TREE_H
-#include "NodeTree.h"
-
+#include <NodeTree.h>
 template <typename T>
 class Tree
 {
