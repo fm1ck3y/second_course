@@ -8,7 +8,7 @@ HashTable<K, V>::HashTable(uint8_t size)
     // check on type value and key (on this moment ready string and int)
     if ((!std::is_same<K, int>::value && !std::is_same<K, std::string>::value) || (!std::is_same<V, int>::value && !std::is_same<V, std::string>::value))
         std::cerr << "type not supported" << std::endl;
-    // memory allocation for table 
+    // memory allocation for table
     this->table = (std::list<HashInfo<K, V>> **)malloc(size * sizeof(std::list<HashInfo<K, V>>));
     for (std::size_t i = 0; i < size; i++)
         this->table[i] = new std::list<HashInfo<K, V>>();
@@ -35,8 +35,9 @@ template <typename K, typename V>
 uint8_t HashTable<K, V>::HashFunc(std::string key)
 {
     uint64_t hashvalue, pow_p = 1;
-    for (std::size_t i = 0; i < key[i] != '\0'; i++){
-        hashvalue += (uint64_t)key[i]*pow_p % this->size;
+    for (std::size_t i = 0; i < key[i] != '\0'; i++)
+    {
+        hashvalue += (uint64_t)key[i] * pow_p % this->size;
         pow_p *= this->p;
     }
     return hashvalue % this->size;
@@ -45,6 +46,8 @@ uint8_t HashTable<K, V>::HashFunc(std::string key)
 template <typename K, typename V>
 void HashTable<K, V>::Add(K key, V value)
 {
+    if (this->IsExist(key))
+        return;
     uint8_t hashkey = this->HashFunc(key);
     HashInfo<K, V> *hs = new HashInfo<K, V>(key, value);
     std::list<HashInfo<K, V>> *_l = table[hashkey];
