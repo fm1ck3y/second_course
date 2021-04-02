@@ -1,6 +1,6 @@
 #include <iostream>
 #include <fstream>
-#define N  5
+#define N  4
 
 // функция чтения матрицы
 void read_matrix(int16_t A[N][N])
